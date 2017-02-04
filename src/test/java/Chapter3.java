@@ -3,10 +3,7 @@ import org.junit.Test;
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -26,6 +23,13 @@ public class Chapter3 {
             return name;
         }
 
+        public Track() {
+        }
+
+        public Track(String name) {
+            this.name = name;
+        }
+
         String name;
 
         public int getLength() {
@@ -40,6 +44,14 @@ public class Chapter3 {
 
         public List<Track> getTrackList() {
             return trackList;
+        }
+
+
+        public Album() {
+        }
+
+        public Album(List<Track> trackList) {
+            this.trackList = trackList;
         }
 
         List<Track> trackList = new ArrayList<Track>();
@@ -129,6 +141,128 @@ public class Chapter3 {
         return trackNames;
     }
 
+
+
+
+    public int add(Stream<Integer> numbers){
+        return numbers.reduce(0, (acm, n) -> acm+n);
+    }
+    public int add2(Stream<Integer> numbers){
+        return numbers.reduce(0,  Integer::sum);
+    }
+
+    public Optional<Integer> add3(Stream<Integer> numbers){
+        return numbers.reduce((acm, n) -> acm+n);
+    }
+
+    @Test
+    public void checkAdd(){
+        Integer[] numbers = {2,4,22,1,5};
+
+
+        System.out.println(add(Arrays.stream(numbers)));
+
+
+        System.out.println(add2(Arrays.stream(numbers)));
+
+
+        System.out.println(add3(Arrays.stream(numbers)).get());
+
+
+        Integer[] numbers2 = {null, 2,4,52,1,5};
+
+        System.out.println(add(Arrays.stream(numbers)));
+
+        System.out.println(add2(Arrays.stream(numbers)));
+
+        System.out.println(add3(Arrays.stream(numbers)).get());
+
+
+    }
+
+
+
+
+    class Artist{
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getNationality() {
+            return nationality;
+        }
+
+        public void setNationality(String nationality) {
+            this.nationality = nationality;
+        }
+
+        String name;
+     String nationality;
+
+        public Artist(String name, String nationality) {
+            this.name = name;
+            this.nationality = nationality;
+        }
+    }
+
+    public static List<String> getNamesAndOrigins(List<Artist> artists) {
+        return artists.stream()
+                .flatMap(artist -> Stream.of(artist.getName(), artist.getNationality()))
+                .collect(Collectors.toList());
+    }
+
+
+
+    @Test
+    public void checkGetNamesAndOrigins(){
+
+       List<Artist> artists = new ArrayList<>();
+       artists.add(new Artist("Beatls", "England"));
+       artists.add(new Artist("Мумитроль", "Питер"));
+
+       System.out.println(getNamesAndOrigins(artists).toString());
+
+    }
+
+
+    public List<Album> getAlbumsWithAtMostThreeTracks(List<Album> albums){
+
+        return albums.stream()
+                      .filter(album -> album.getTrackList().size()>2)
+                .collect(Collectors.toList());
+
+    }
+
+    @Test
+    public void checkGetAlbumsWithAtMostThreeTracks(){
+
+        List<Album> albums = new ArrayList<>();
+        Track t1 = new Track("1");
+        Track t2 = new Track("32");
+        Track t3 = new Track("3");
+        Track t4 = new Track("133");
+        Track t5 = new Track("1rw44");
+        Track t6 = new Track("144");
+        Track t7 = new Track("14wre4");
+        Track t8= new Track("144wer");
+
+
+        albums.add(new Album(Arrays.asList(new Track[]{t1, t2})));
+        albums.add(new Album(Arrays.asList(new Track[]{t1,t2, t2})));
+        albums.add(new Album(Arrays.asList(new Track[]{t7, t8, t6, t2})));
+        albums.add(new Album(Arrays.asList(new Track[]{t5, t4})));
+        albums.add(new Album(Arrays.asList(new Track[]{t5, t4, t3})));
+        albums.add(new Album(Arrays.asList(new Track[]{t3})));
+
+        System.out.println(getAlbumsWithAtMostThreeTracks(albums).size());
+
+
+
+    }
 
 
 
