@@ -203,6 +203,21 @@ public class Chapter3 {
         String name;
      String nationality;
 
+
+        public Stream<Artist> getMembers() {
+            return members.stream();
+        }
+
+        public void setMembers(List<Artist> members) {
+            this.members = members;
+        }
+
+        List<Artist> members = new ArrayList<>();
+
+        public List<Artist> getMembersList(){
+            return members;
+        }
+
         public Artist(String name, String nationality) {
             this.name = name;
             this.nationality = nationality;
@@ -264,6 +279,50 @@ public class Chapter3 {
 
     }
 
+
+
+    @Test
+    public void iteration(){
+        List<Artist> artists = new ArrayList<>();
+        artists.add(new Artist("Beatls", "England"));
+
+        artists.add(new Artist("Мумитроль", "Питер"));
+
+        Artist a3 = new Artist("Мумитроль3", "Питер2");
+        a3.getMembersList().add(new Artist("Мумитроль3", "Питер2"));
+        a3.getMembersList().add(new Artist("Мумитроль3", "Питер2"));
+        a3.getMembersList().add(new Artist("Мумитроль3", "Питер2"));
+        artists.add(a3);
+
+
+
+        //My Answer
+        long totalMembers1 = artists.stream()
+                            .flatMap(a -> a.getMembers())
+                            .count();
+
+        System.out.println(totalMembers1);
+
+
+        int totalMembers = 0;
+        for (Artist artist : artists) {
+            Stream<Artist> members = artist.getMembers();
+            totalMembers += members.count();
+        }
+
+        System.out.println(totalMembers);
+
+
+
+        //Book Answer ???? Why so hard?
+        int totalMembers3 =  artists.stream()
+                .map(artist -> artist.getMembers().count())
+                .reduce(0L, Long::sum)
+                .intValue();
+
+        System.out.println(totalMembers3);
+
+    }
 
 
 }
