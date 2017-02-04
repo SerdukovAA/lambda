@@ -325,5 +325,85 @@ public class Chapter3 {
     }
 
 
+
+
+    @Test
+    public void _3(){
+      ///Если возвращает Stream - отложенная
+        //что то другое, в том числе void - энергичная
+    }
+
+    @Test
+    public void _4(){
+
+        ///Функции высшего порядка или возращают или принимают на вход функциональные интерфейсы
+
+
+    }
+
+
+
+    public static int  countUpperCase(String string){
+        return (int) string.chars().filter(ch -> Character.isUpperCase(ch)).count();
+    }
+
+
+    @Test
+    public void _6(){
+
+        String uL = new String("ИнтреСное ЗаДАНИе по подсЧёту СТРоЧных букв в стрОкЕ.");
+        long count = uL.chars().filter(ch -> Character.isUpperCase(ch)).count();
+        System.out.println(count);
+
+        long count2 = countUpperCase(uL);
+        System.out.println(count2);
+
+
+    }
+
+
+
+    @Test
+    public void _7(){
+
+        String uL = new String("ИнтреСное ЗаДАНИе по подсЧёту СТРоЧных букв в стрОкЕ.");
+        String uL2 = new String("ИнтреСрОкЕ.");
+        String uL3 = new String("ИнтреС СТРоЧных букв в стрОкЕ.");
+        String uL4 = new String("ИнтреС СТРоЧных букв в стрОкЕ.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
+        List<String> list = new ArrayList<>();
+        list.add(uL);
+        list.add(uL2);
+        list.add(uL3);
+        list.add(uL4);
+
+
+        String maxUppers = list.stream()
+                               .max(Comparator.comparing(string -> string.chars().filter(ch -> Character.isUpperCase(ch)).count()))
+                               .get();
+
+        System.out.println(maxUppers);
+
+
+
+        String maxUppers2 = list.stream()
+                .max(Comparator.comparing(Chapter3::countUpperCase))
+                .get();
+
+        System.out.println(maxUppers2);
+
+
+        String maxUppers3 = list.stream()
+                .max(Comparator.comparing(string -> countUpperCase(string)))
+                .get();
+
+        System.out.println(maxUppers3);
+
+
+
+    }
+
+
+
 }
 
