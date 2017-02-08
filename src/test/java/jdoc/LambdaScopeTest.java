@@ -36,6 +36,7 @@ public class LambdaScopeTest {
             myConsumer.accept(x);
 
         }
+
     }
 
     @Test
