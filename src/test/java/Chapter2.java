@@ -39,17 +39,8 @@ public class Chapter2 {
 
     @Test
     public void _2(){
-
         ThreadLocal.withInitial(() -> new User());
-
-
-
-
     }
-
-
-
-
 
    @Test
     public void _3(){
